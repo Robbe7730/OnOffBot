@@ -10,7 +10,6 @@ config = configparser.ConfigParser()
 config.read('secrets.ini')
 
 ONLINE = None
-USERNAME = ""
 TOKEN = config['secrets']['webhook_token']
 
 
@@ -20,7 +19,6 @@ def index():
     index: show the on/off/onoff svg depending on the current status
     """
     global ONLINE
-    global USERNAME
     if request.method == "GET":
         # Return the correct svg
         if ONLINE is None:
@@ -30,8 +28,7 @@ def index():
         else:
             path = "off.svg"
 
-        # Fill in the username
-        return render_template(path, username=USERNAME)
+        return render_template(path)
     if request.method == "POST":
         # Get the POST-ed data
         data = request.json
@@ -45,9 +42,6 @@ def index():
         # Make sure the token matches
         if data["token"] != TOKEN:
             return "Invalid token", 401
-
-        # Set the username
-        USERNAME = data["user_name"]
 
         # Set the status
         if data["trigger_word"].lower() == "on":
@@ -66,11 +60,8 @@ def toggle():
     toggle: for debugging only, toggles the on/off state
     """
     global ONLINE
-    global USERNAME
     if ONLINE:
         ONLINE = False
-        USERNAME = "onbekend"
     else:
         ONLINE = True
-        USERNAME = "onbekend"
     return str(ONLINE)
