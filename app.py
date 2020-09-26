@@ -17,7 +17,7 @@ def index():
             path = "off.svg"
         return render_template(path, username=username)
     elif request.method == "POST":
-        data = request.json()
+        data = request.json
         if "trigger_word" not in data:
             return "no trigger word found"
         if "user_name" not in data:
