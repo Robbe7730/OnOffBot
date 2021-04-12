@@ -44,9 +44,9 @@ def index():
             return "Invalid token", 401
 
         # Set the status
-        if data["trigger_word"].lower() == "on":
+        if data["trigger_word"].lower() in ["on", "aan"]:
             ONLINE = True
-        if data["trigger_word"].lower() == "off":
+        if data["trigger_word"].lower() in ["off", "uit"]:
             ONLINE = False
 
         # Return the new status (unused by Mattermost)
